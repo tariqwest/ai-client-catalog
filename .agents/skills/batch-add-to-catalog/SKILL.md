@@ -28,6 +28,7 @@ The skill deduplicates against the master table *and* within the batch, and vets
 | `type` | `string` | no | Override agent category for all items: `desktop-ide`, `workspace-app`, or `terminal-cli` |
 | `update` | `boolean` | no | If true, update existing rows for matched IDs (default `false` → skip `already-in-catalog`) |
 | `dryRun` | `boolean` | no | If true, only report what *would* be added/skipped; do not write `catalog-master-table.md` (default `false`) |
+| `override` | `boolean` | no | If true, allow web UI/SaaS or cloud-agent candidates that the agent would otherwise exclude by the gating criteria (default `false`) |
 
 **Examples:**
 ```json
@@ -66,6 +67,7 @@ The skill deduplicates against the master table *and* within the batch, and vets
    - `type` must be `Terminal CLI` / `Desktop IDE` / `Desktop IDE plugin` / `Workspace app` / `ACP Adapter` / `Library+Server` / `Desktop app`; else `not-a-peer-type`.
    - `category` must be `code`/`agent`/`host`/`library+server`.
    - README/homepage must signal AI coding (`code`/`agent`/`IDE`/`CLI`/`harness`/`ACP`/`assistant`/`autocomplete`). Fetch README (GitHub `README.md` raw) or homepage `<title>/<meta description>`; if missing and no binary/install, skip `not-a-peer-scope`. Flag borderline `needs-manual-review` rather than adding.
+   - **Web UI / SaaS / cloud-agent gating.** The catalog tracks installable, locally-runnable AI coding clients (terminal CLIs, desktop IDEs, local workspace apps, ACP adapters) rather than browser-only SaaS tools or cloud-hosted coding agents. If a candidate's primary interface is a web UI with no local installable binary, or it is a cloud-only agent that runs in a hosted sandbox/IDE rather than on the user's machine, exclude with reason `excluded-web-ui-saas` or `excluded-cloud-agent`. The user may override by passing `override: true` or by confirming when asked. When `override` is not set and the gating is ambiguous, ask the user before adding.
 
 4. **Enrich & upsert each vetted candidate** via `add-to-catalog` single-item flow:
    - `parseInput(input)` → fetch README/package for `version`/`distribution`/`description`/`license`.

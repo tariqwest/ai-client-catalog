@@ -29,6 +29,7 @@ It auto-detects the agent type (desktop IDE, workspace app, terminal CLI), versi
 | `type` | string | no | Override agent category: `desktop-ide`, `workspace-app`, or `terminal-cli` (applies to all entries in batch mode) |
 | `update` | boolean | no | If true, update existing catalog entries for matched IDs (default: `false`) |
 | `dryRun` | boolean | no | If true, only report what would be added/skipped without writing `catalog-master-table.md` |
+| `override` | boolean | no | If true, allow web UI/SaaS or cloud-agent candidates that the agent would otherwise exclude by the gating criteria (default: `false`) |
 
 \* `input` or `inputs` must be provided (exactly one). The skill auto-detects batch: if `inputs` is given, or `input` contains multiple entries, or a single listing-page URL that scrapes to many candidates, execution routes to `helpers/batch.js`.
 
@@ -107,6 +108,7 @@ It auto-detects the agent type (desktop IDE, workspace app, terminal CLI), versi
    - `type` must be one of: `Terminal CLI` (incl. `(+ ACP)`), `Desktop IDE`, `Desktop IDE plugin`, `Workspace app`, `ACP Adapter`, `Library+Server`, `Desktop app`. Any other (e.g. pure library, model weights, hosting infra, non-coding chatbot, CI runner) → skip with reason `not-a-peer-type`.
    - `category` should be `code`/`agent`/`host`/`library+server`; unknown → skip `not-a-peer-category`.
    - Description/README must signal AI coding (keywords: `code`, `agent`, `IDE`, `CLI`, `harness`, `ACP`, `assistant`, `autocomplete`, `completion`, `LLM`, `AI` + `code`). If README/package manifest lacks these and no install binary, skip `not-a-peer-scope`. When in doubt, fetch homepage/README and look for `code`/`agent`/`CLI` in title/description; err on rejection and flag `needs-manual-review`.
+   - **Web UI / SaaS / cloud-agent gating.** The catalog tracks installable, locally-runnable AI coding clients (terminal CLIs, desktop IDEs, local workspace apps, ACP adapters) rather than browser-only SaaS tools or cloud-hosted coding agents. If a candidate's primary interface is a web UI with no local installable binary, or it is a cloud-only agent that runs in a hosted sandbox/IDE rather than on the user's machine, exclude with reason `excluded-web-ui-saas` or `excluded-cloud-agent`. This gating can be overridden by the user by passing `override: true`, by confirming when asked (e.g. "add it anyway"), or by overriding `type` to a local peer and confirming. When `override` is not set and the gating is ambiguous, ask the user before adding.
 4. **Deduplicate against catalog** — before any write:
    ```bash
    node .agents/skills/add-to-catalog/helpers/md-table.js --file catalog-master-table.md --list | python3 -c "import json,sys; ids={r['id'].strip('\`').lower() for r in json.load(sys.stdin)}; print('qwen-code' in ids)"
@@ -140,7 +142,7 @@ It auto-detects the agent type (desktop IDE, workspace app, terminal CLI), versi
    ```
    Also append/update the corresponding prose entry in `ai-cli-client-catalog.md` (§14 for external/Chinese-lab sources). If `update=true` and the ID exists, the helper replaces the existing table row in place (deduped by `ID`).
 7. Run `git --no-pager diff --check` on both catalog files and strip any trailing-whitespace or tab issues from the new rows. The helper's CLI does this automatically and exits non-zero on violations. Then verify `Vendor`/`Category`/`Version`/`License` are not `"—"` for open repos, and that `homepage_url`/`github_url` are present (`github_url: "—"` for closed SaaS).
-8. Report: number of entries added/updated, any entries skipped (with reason: `already-in-catalog`, `not-a-peer-type`, `not-a-peer-scope`, `needs-manual-review`), and the catalog sections modified. Include the `homepage_url`/`github_url` mapping and the 16-col verification (`Vendor | Category | Version | License`) for review.
+8. Report: number of entries added/updated, any entries skipped (with reason: `already-in-catalog`, `not-a-peer-type`, `not-a-peer-category`, `not-a-peer-scope`, `needs-manual-review`, `excluded-web-ui-saas`, `excluded-cloud-agent`), and the catalog sections modified. Include the `homepage_url`/`github_url` mapping and the 16-col verification (`Vendor | Category | Version | License`) for review.
 
 ## Validation
 
