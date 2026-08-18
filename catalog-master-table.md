@@ -161,7 +161,7 @@
 
 ## CLI Surface Mapping
 
-> **Extracted:** CLI interface details moved to [cli-surface-mapping.md](cli-surface-mapping.md)
+> **Extracted:** CLI interface details moved to [cli-surface-mapping-table.md](cli-surface-mapping-table.md)
 > Maps command structure, subcommands, and headless patterns for 50 terminal_cli tools.
 
 ---

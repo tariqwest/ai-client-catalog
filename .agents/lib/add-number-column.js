@@ -7,7 +7,7 @@
  *
  * Usage:
  *   node .agents/lib/add-number-column.js catalog-master-table.md
- *   node .agents/lib/add-number-column.js cli-surface-mapping.md
+ *   node .agents/lib/add-number-column.js cli-surface-mapping-table.md
  */
 
 const fs = require('fs');

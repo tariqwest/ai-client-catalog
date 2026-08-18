@@ -3,7 +3,7 @@
  * populate-cli-surface.js — Intelligently populate CLI Surface Mapping table
  *
  * Reads catalog-master-table.md for terminal_cli tools and populates
- * cli-surface-mapping.md with researched CLI patterns.
+ * cli-surface-mapping-table.md with researched CLI patterns.
  *
  * Usage:
  *   node .agents/lib/populate-cli-surface.js [--dry-run]
@@ -13,7 +13,7 @@ const fs = require('fs');
 const path = require('path');
 
 const catalogPath = path.resolve(__dirname, '../../catalog-master-table.md');
-const cliMappingPath = path.resolve(__dirname, '../../cli-surface-mapping.md');
+const cliMappingPath = path.resolve(__dirname, '../../cli-surface-mapping-table.md');
 
 // Known CLI patterns from documentation and testing
 const CLI_PATTERNS = {
@@ -716,7 +716,7 @@ function main() {
   console.log('🔍 Reading catalog-master-table.md...');
   const catalog = fs.readFileSync(catalogPath, 'utf8');
   
-  console.log('🔍 Reading cli-surface-mapping.md...');
+  console.log('🔍 Reading cli-surface-mapping-table.md...');
   const cliMapping = fs.readFileSync(cliMappingPath, 'utf8');
   
   // Extract terminal_cli tools from catalog
@@ -748,7 +748,7 @@ function main() {
     newRows.push(row);
   }
   
-  // Replace table in cli-surface-mapping.md
+  // Replace table in cli-surface-mapping-table.md
   const cliLines = cliMapping.split('\n');
   const output = [];
   let inTable = false;
@@ -798,7 +798,7 @@ function main() {
     console.log('...');
   } else {
     fs.writeFileSync(cliMappingPath, result, 'utf8');
-    console.log(`\n✅ Updated cli-surface-mapping.md with ${newRows.length} rows`);
+    console.log(`\n✅ Updated cli-surface-mapping-table.md with ${newRows.length} rows`);
     console.log(`   Known patterns: ${Object.keys(CLI_PATTERNS).length}`);
     console.log(`   Inferred patterns: ${newRows.length - Object.keys(CLI_PATTERNS).length}`);
   }

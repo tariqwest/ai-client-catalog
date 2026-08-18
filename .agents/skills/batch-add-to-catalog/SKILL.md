@@ -78,7 +78,7 @@ The skill deduplicates against the master table *and* within the batch, and vets
    ```bash
    node .agents/lib/sync-cli-surface.js --ids qwen-code,codex,opencode
    ```
-   This will add or update the corresponding rows in `cli-surface-mapping.md`, preserving `id`, `uid`, `command` (from `binary`), `created`, `updated`, and `project_status`. In `dryRun` mode, the sync helper is also run with `--dry-run`.
+   This will add or update the corresponding rows in `cli-surface-mapping-table.md`, preserving `id`, `uid`, `command` (from `binary`), `created`, `updated`, and `project_status`. In `dryRun` mode, the sync helper is also run with `--dry-run`.
 
 6. **Verify:**
    ```bash

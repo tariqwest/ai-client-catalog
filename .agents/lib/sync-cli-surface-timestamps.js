@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Synchronize created/updated values from catalog-master-table.md into
- * cli-surface-mapping.md by uid. Rows without a matching catalog uid retain —.
+ * cli-surface-mapping-table.md by uid. Rows without a matching catalog uid retain —.
  */
 
 const fs = require('fs');
@@ -75,7 +75,7 @@ function main() {
   const args = process.argv.slice(2);
   const valueFor = flag => args[args.indexOf(flag) + 1];
   const catalogPath = path.resolve(valueFor('--catalog') || path.resolve(__dirname, '../../catalog-master-table.md'));
-  const mappingPath = path.resolve(valueFor('--mapping') || path.resolve(__dirname, '../../cli-surface-mapping.md'));
+  const mappingPath = path.resolve(valueFor('--mapping') || path.resolve(__dirname, '../../cli-surface-mapping-table.md'));
   const dryRun = args.includes('--dry-run');
   const result = syncCliSurfaceTimestamps(fs.readFileSync(catalogPath, 'utf8'), fs.readFileSync(mappingPath, 'utf8'));
   if (!dryRun) fs.writeFileSync(mappingPath, result.markdown.endsWith('\n') ? result.markdown : `${result.markdown}\n`);

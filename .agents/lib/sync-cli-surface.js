@@ -9,7 +9,7 @@
  *   node .agents/lib/sync-cli-surface.js --all                # sync all terminal_cli rows
  *   node .agents/lib/sync-cli-surface.js --all --dry-run      # preview
  *
- * Mirrors columns from cli-surface-mapping.md. Unknown CLI details default to `—`.
+ * Mirrors columns from cli-surface-mapping-table.md. Unknown CLI details default to `—`.
  * Uses patterns from populate-cli-surface.js when available; otherwise infers from id/binary.
  */
 
@@ -20,7 +20,7 @@ const { Spreadsheet, normalizeKey } = require('./md-table.js');
 const { CLI_PATTERNS, inferPattern } = require('./populate-cli-surface.js');
 
 const CATALOG = path.resolve(__dirname, '../../catalog-master-table.md');
-const CLI_MAP = path.resolve(__dirname, '../../cli-surface-mapping.md');
+const CLI_MAP = path.resolve(__dirname, '../../cli-surface-mapping-table.md');
 
 function uid() {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -176,12 +176,12 @@ function main() {
     if (!out.endsWith('\n')) out += '\n';
     fs.writeFileSync(CLI_MAP, out, 'utf8');
     try {
-      execSync('git --no-pager diff --check -- cli-surface-mapping.md', { stdio: 'pipe', cwd: path.dirname(CLI_MAP) });
+      execSync('git --no-pager diff --check -- cli-surface-mapping-table.md', { stdio: 'pipe', cwd: path.dirname(CLI_MAP) });
     } catch (e) {
       const msg = e.stdout?.toString() || e.message || '';
       if (!msg.includes('outside repository')) console.error(msg);
     }
-    console.log(`Synced cli-surface-mapping.md: added ${added}, updated ${updated}, skipped ${skipped}`);
+    console.log(`Synced cli-surface-mapping-table.md: added ${added}, updated ${updated}, skipped ${skipped}`);
   }
 
   return { added, updated, skipped };

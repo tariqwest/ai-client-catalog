@@ -339,7 +339,7 @@ async function main() {
     }
     console.log(`Wrote ${catalogPath} — rows: ${sheet.list().length}`);
 
-    // Sync any terminal CLI rows to cli-surface-mapping.md
+    // Sync any terminal CLI rows to cli-surface-mapping-table.md
     const syncIds = [...results.added, ...results.updated]
       .map(r => (r.id || '').replace(/`/g, '').trim())
       .filter(Boolean)

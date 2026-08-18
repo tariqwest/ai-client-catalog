@@ -4,7 +4,7 @@
  *
  * Operates on the two main tables in this repo:
  *   - catalog-master-table.md
- *   - cli-surface-mapping.md
+ *   - cli-surface-mapping-table.md
  *
  * Usage:
  *   node .agents/lib/transform-catalog.js [command] [options]
@@ -38,7 +38,7 @@ const { execSync } = require('child_process');
 const { Spreadsheet, splitRow, normalizeKey } = require('./md-table.js');
 
 const CATALOG = path.resolve(__dirname, '../../catalog-master-table.md');
-const CLI_MAP = path.resolve(__dirname, '../../cli-surface-mapping.md');
+const CLI_MAP = path.resolve(__dirname, '../../cli-surface-mapping-table.md');
 
 const DEFAULT_REMOVE_IDS = ['bolt-new', 'lovable', 'replit', 'perplexity-computer', 'perplexity-space'];
 const DEFAULT_STATUS_FILE = path.resolve(__dirname, './catalog-status.json');

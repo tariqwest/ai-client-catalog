@@ -141,7 +141,7 @@ It auto-detects the agent type (desktop IDE, workspace app, terminal CLI), versi
    sheet.upsert(full).writeFile('catalog-master-table.md');
    ```
    **Generate `uid` for new rows.** If the row is new, generate an 8-character stable `uid` (uppercase A-Z + 0-9, e.g. `crypto.randomBytes(8).toString('hex').slice(0,8).toUpperCase()` is not safe — use an alphabet and modulo). Include it in the upsert object; do not leave the `uid` column empty.
-6a. **Sync CLI surface mapping** — If the upserted master row is a `Terminal CLI` (`type` includes `terminal_cli`) or has a CLI `binary`, also add or update the corresponding row in `cli-surface-mapping.md`:
+6a. **Sync CLI surface mapping** — If the upserted master row is a `Terminal CLI` (`type` includes `terminal_cli`) or has a CLI `binary`, also add or update the corresponding row in `cli-surface-mapping-table.md`:
    ```bash
    node .agents/lib/sync-cli-surface.js --id qwen-code
    # or for multiple terminal CLI additions/updates:
@@ -149,9 +149,9 @@ It auto-detects the agent type (desktop IDE, workspace app, terminal CLI), versi
    # dry-run:
    node .agents/lib/sync-cli-surface.js --id qwen-code --dry-run
    ```
-   This helper reads the master row and upserts a `cli-surface-mapping.md` row with the same `id`, `uid`, `command` (from `binary`), `created`, `updated`, and `project_status`; unknown CLI surface columns are left as `—` or filled from known patterns. Run it after every terminal CLI addition or update, including renames (`update: true`).
+   This helper reads the master row and upserts a `cli-surface-mapping-table.md` row with the same `id`, `uid`, `command` (from `binary`), `created`, `updated`, and `project_status`; unknown CLI surface columns are left as `—` or filled from known patterns. Run it after every terminal CLI addition or update, including renames (`update: true`).
    Also append/update the corresponding prose entry in `ai-cli-client-catalog.md` (§14 for external/Chinese-lab sources). If `update=true` and the ID exists, the helper replaces the existing table row in place (deduped by `ID`).
-7. Run `git --no-pager diff --check` on `catalog-master-table.md`, `ai-cli-client-catalog.md`, and `cli-surface-mapping.md` (if modified) and strip any trailing-whitespace or tab issues from the new rows. The helper's CLI does this automatically and exits non-zero on violations. Then verify `Vendor`/`Category`/`Version`/`License` are not `"—"` for open repos, and that `homepage_url`/`github_url` are present (`github_url: "—"` for closed SaaS).
+7. Run `git --no-pager diff --check` on `catalog-master-table.md`, `ai-cli-client-catalog.md`, and `cli-surface-mapping-table.md` (if modified) and strip any trailing-whitespace or tab issues from the new rows. The helper's CLI does this automatically and exits non-zero on violations. Then verify `Vendor`/`Category`/`Version`/`License` are not `"—"` for open repos, and that `homepage_url`/`github_url` are present (`github_url: "—"` for closed SaaS).
 8. Report: number of entries added/updated, any entries skipped (with reason: `already-in-catalog`, `not-a-peer-type`, `not-a-peer-category`, `not-a-peer-scope`, `needs-manual-review`, `excluded-web-ui-saas`, `excluded-cloud-agent`), and the catalog sections modified. Include the `homepage_url`/`github_url` mapping and the 16-col verification (`Vendor | Category | Version | License`) for review.
 
 ## Validation
