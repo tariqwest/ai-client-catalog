@@ -1,0 +1,6 @@
+# macOS
+.DS_Store
+
+# Local backups
+backups/
+*.backup.*.md
