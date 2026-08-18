@@ -17,6 +17,13 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { randomBytes } = require('crypto');
+
+function generateUid() {
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const bytes = randomBytes(8);
+  return Array.from(bytes).map(b => alphabet[b % alphabet.length]).join('');
+}
 
 const CATALOG_REL = '../../../../catalog-master-table.md';
 const catalogPath = path.resolve(__dirname, CATALOG_REL);
@@ -288,25 +295,26 @@ async function main() {
       continue;
     }
 
-    // Build full 16-col row: start from parsed, enrich minimally (placeholder Version/License etc.)
+    // Build full master-table row: start from parsed, enrich minimally (placeholder Version/License etc.)
     // To avoid partial upsert clearing, load existing row if any and merge
     const existing = sheet.find(normId);
     const base = existing ? (({ __raw, __line, ...r }) => r)(existing) : {};
-    // toTableRow expects normalized keys, but we build directly with 16-col keys
+    // toTableRow expects normalized keys, but we build directly with master columns
     const row = {
       id: parsed.id,
+      uid: base.uid || (existing ? undefined : generateUid()),
       display_name: parsed.display_name || base.display_name || parsed.id.replace(/`/g, ''),
+      aliases: base.aliases || parsed.id.replace(/`/g, ''),
+      binary: base.binary || `\`${normId}\``,
       vendor: parsed.vendor || base.vendor || '—',
       category: base.category || 'code',
       type: parsed.type || base.type || 'Terminal CLI',
-      binary: base.binary || `\`${normId}\``,
-      acp_launch: base.acp_launch || '—',
-      headless_print: base.headless_print || '—',
-      trust_bypass: base.trust_bypass || '—',
-      distribution_install: base.distribution_install || '—',
+      is_acp_client_host: base.is_acp_client_host || 'false',
+      is_acp_agent_server: base.is_acp_agent_server || 'false',
+      distribution_install: base.distribution_install || parsed.distribution_install || '—',
       version: base.version || '—',
       license: base.license || '—',
-      baseurl_config: base.baseurl_config || '—',
+      project_status: base.project_status || 'active',
       popularity: base.popularity || '—',
       homepage_url: parsed.homepage_url || base.homepage_url || '—',
       github_url: parsed.github_url || base.github_url || '—',
@@ -330,6 +338,20 @@ async function main() {
       if (!msg.includes('outside repository')) console.error(msg);
     }
     console.log(`Wrote ${catalogPath} — rows: ${sheet.list().length}`);
+
+    // Sync any terminal CLI rows to cli-surface-mapping.md
+    const syncIds = [...results.added, ...results.updated]
+      .map(r => (r.id || '').replace(/`/g, '').trim())
+      .filter(Boolean)
+      .join(',');
+    if (syncIds) {
+      const syncScript = path.resolve(__dirname, '../../../lib/sync-cli-surface.js');
+      try {
+        execSync(`node ${JSON.stringify(syncScript)} --ids ${syncIds}`, { stdio: 'inherit' });
+      } catch (e) {
+        console.error(`CLI surface sync failed: ${e.message}`);
+      }
+    }
   }
 
   // Report

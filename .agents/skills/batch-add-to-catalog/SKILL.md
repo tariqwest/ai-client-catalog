@@ -71,10 +71,16 @@ The skill deduplicates against the master table *and* within the batch, and vets
 
 4. **Enrich & upsert each vetted candidate** via `add-to-catalog` single-item flow:
    - `parseInput(input)` → fetch README/package for `version`/`distribution`/`description`/`license`.
-   - Build **full 16-col row** (never partial): `ID | Display Name | Vendor | Category | Type | Binary | ACP launch | Headless/Print | Trust/Bypass | Distribution/Install | Version | License | BaseUrl/Config | Popularity | homepage_url | github_url`.
+   - Build **full master-table row** (never partial): `# | id | uid | display_name | aliases | binary | vendor | category | type | is_acp_client_host | is_acp_agent_server | distribution_install | version | license | project_status | popularity | homepage_url | github_url | created | updated`. New rows must receive a generated 8-character `uid`.
    - `helpers/md-table.js upsert` (merge with existing if `update`).
 
-5. **Verify:**
+5. **Sync CLI surface mapping** — After the master table is written, for every vetted candidate whose master `type` is `Terminal CLI` (or `terminal_cli`), call the CLI surface sync helper for the added/updated ids:
+   ```bash
+   node .agents/lib/sync-cli-surface.js --ids qwen-code,codex,opencode
+   ```
+   This will add or update the corresponding rows in `cli-surface-mapping.md`, preserving `id`, `uid`, `command` (from `binary`), `created`, `updated`, and `project_status`. In `dryRun` mode, the sync helper is also run with `--dry-run`.
+
+6. **Verify:**
    ```bash
    git --no-pager diff --check -- catalog-master-table.md
    node ../add-to-catalog/helpers/md-table.js --file ../../../catalog-master-table.md --list | python3 -c "import json,sys; d=json.load(sys.stdin); print(len(d))"

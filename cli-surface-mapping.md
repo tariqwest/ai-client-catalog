@@ -109,7 +109,7 @@
 | 76 | `void-cli` | qlxjq9o2 | `void` | void "prompt" | positional | — | ✓ (default) | — | — | — | — | — | — | 2026-08-11T14:48:26Z | 2026-08-11T14:48:26Z | active |
 | 77 | `neo` | 85fnf8sl | `neo` | — | positional | — | ✓ (default) | — | — | — | — | — | — | 2026-08-11T14:48:26Z | 2026-08-11T14:48:26Z | active |
 | 78 | `prime-agent` | olo08elv | `prime-agent` | — | positional | — | run | — | — | — | — | — | — | 2026-08-11T14:48:26Z | 2026-08-11T14:50:44Z | active |
-| 79 | `codebuff` | 1eljmmbh | `codebuff` | — | positional | — | ✓ (default) | — | — | — | — | — | Coding agent CLI | 2026-08-11T15:19:33Z | 2026-08-11T15:19:33Z | active |
+| 79 | `codebuff` | 1eljmmbh | `freebuff` | — | positional | — | ✓ (default) | — | — | — | — | — | Coding agent CLI | 2026-08-11T15:19:33Z | 2026-08-18T00:34:40Z | active |
 | 80 | `llm` | q7m2k4za | `llm` | — | positional | — | ✓ (default) | — | — | — | — | — | — | 2026-08-14T00:00:00Z | 2026-08-14T00:00:00Z | active |
 | 81 | `gptme` | r8n3p5vb | `gptme` | gptme "prompt" | positional | — | ✓ (default) | — | — | — | — | log, eval | Erik Bjäreholt agent | 2026-08-14T00:00:00Z | 2026-08-14T00:00:00Z | active |
 | 82 | `blackbox-cli` | v6c1x9qd | `blackbox` | blackbox "prompt" | positional | — | ✓ (default) | — | — | — | — | — | — | 2026-08-14T00:00:00Z | 2026-08-14T00:00:00Z | active |
