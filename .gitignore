@@ -4,3 +4,6 @@
 # Local backups
 backups/
 *.backup.*.md
+
+# Devin local configuration
+.devin/
