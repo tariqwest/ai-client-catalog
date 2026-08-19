@@ -25,7 +25,8 @@ const CLI_MAP = path.resolve(__dirname, '../../cli-surface-mapping-table.md');
 function uid() {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   const bytes = require('crypto').randomBytes(8);
-  return Array.from(bytes).map(b => alphabet[b % alphabet.length]).join('');
+  const chars = Array.from(bytes).map(b => alphabet[b % alphabet.length]);
+  return `${chars.slice(0, 4).join('')}-${chars.slice(4).join('')}`;
 }
 
 function normalizeId(id) {

@@ -71,7 +71,7 @@ The skill deduplicates against the master table *and* within the batch, and vets
 
 4. **Enrich & upsert each vetted candidate** via `add-to-catalog` single-item flow:
    - `parseInput(input)` → fetch README/package for `version`/`distribution`/`description`/`license`.
-   - Build **full master-table row** (never partial): `# | id | uid | display_name | aliases | binary | vendor | category | type | is_acp_client_host | is_acp_agent_server | distribution_install | version | license | project_status | popularity | homepage_url | github_url | created | updated`. New rows must receive a generated 8-character `uid`.
+   - Build **full master-table row** (never partial): `# | id | uid | display_name | aliases | binary | vendor | category | type | is_acp_client_host | is_acp_agent_server | distribution_install | version | license | project_status | popularity | homepage_url | github_url | created | updated`. New rows must receive a generated 8-character `uid` formatted as `XXXX-XXXX` (e.g. `PAVY-M44Y`).
    - `helpers/md-table.js upsert` (merge with existing if `update`).
 
 5. **Sync CLI surface mapping** — After the master table is written, for every vetted candidate whose master `type` is `Terminal CLI` (or `terminal_cli`), call the CLI surface sync helper for the added/updated ids:

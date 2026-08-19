@@ -22,7 +22,8 @@ const { randomBytes } = require('crypto');
 function generateUid() {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   const bytes = randomBytes(8);
-  return Array.from(bytes).map(b => alphabet[b % alphabet.length]).join('');
+  const chars = Array.from(bytes).map(b => alphabet[b % alphabet.length]);
+  return `${chars.slice(0, 4).join('')}-${chars.slice(4).join('')}`;
 }
 
 const CATALOG_REL = '../../../../catalog-master-table.md';

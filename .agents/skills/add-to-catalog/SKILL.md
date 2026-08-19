@@ -140,7 +140,7 @@ It auto-detects the agent type (desktop IDE, workspace app, terminal CLI), versi
    const full = { ...(existing ? (({__raw,__line,...r})=>r)(existing) : {}), ...toTableRow(parsed, enriched) };
    sheet.upsert(full).writeFile('catalog-master-table.md');
    ```
-   **Generate `uid` for new rows.** If the row is new, generate an 8-character stable `uid` (uppercase A-Z + 0-9, e.g. `crypto.randomBytes(8).toString('hex').slice(0,8).toUpperCase()` is not safe — use an alphabet and modulo). Include it in the upsert object; do not leave the `uid` column empty.
+   **Generate `uid` for new rows.** If the row is new, generate an 8-character stable `uid` (uppercase A-Z + 0-9) formatted as `XXXX-XXXX` for readability, e.g. `PAVY-M44Y` (`crypto.randomBytes(8).toString('hex').slice(0,8).toUpperCase()` is not safe — use an alphabet and modulo, then insert a dash between the first 4 and last 4 characters). Include it in the upsert object; do not leave the `uid` column empty.
 6a. **Sync CLI surface mapping** — If the upserted master row is a `Terminal CLI` (`type` includes `terminal_cli`) or has a CLI `binary`, also add or update the corresponding row in `cli-surface-mapping-table.md`:
    ```bash
    node .agents/lib/sync-cli-surface.js --id qwen-code
