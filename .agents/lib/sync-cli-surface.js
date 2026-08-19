@@ -42,11 +42,21 @@ function extractCommand(binary, displayName) {
   return raw.split(/[\s(]/)[0].replace(/`/g, '').trim() || normalizeId(displayName);
 }
 
+function normalizePatternKeys(pattern) {
+  if (!pattern) return {};
+  const out = {};
+  for (const [k, v] of Object.entries(pattern)) {
+    out[normalizeKey(k)] = v;
+  }
+  return out;
+}
+
 function buildRow(master, pattern, rowNum) {
   const id = normalizeId(master.id);
   const command = extractCommand(master.binary, master.display_name);
   const isAcpAgent = String(master.is_acp_agent_server).toLowerCase() === 'true';
-  const inferred = pattern || inferPattern(id, command, master.display_name, isAcpAgent);
+  const rawPattern = pattern || inferPattern(id, command, master.display_name, isAcpAgent);
+  const inferred = normalizePatternKeys(rawPattern);
 
   return {
     '': String(rowNum),
@@ -56,7 +66,7 @@ function buildRow(master, pattern, rowNum) {
     headless_print: inferred.headless_print || '—',
     prompt_mode: inferred.prompt_mode || '—',
     acp: inferred.acp || '—',
-    'chat/run': inferred['chat/run'] || '—',
+    chat_run: inferred.chat_run || '—',
     serve: inferred.serve || '—',
     config: inferred.config || '—',
     auth: inferred.auth || '—',

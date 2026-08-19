@@ -186,6 +186,11 @@ class Spreadsheet {
     } else {
       if (supportsCreated && (next.created === undefined || next.created === '')) next.created = now;
       if (supportsUpdated && (next.updated === undefined || next.updated === '')) next.updated = now;
+      // If table has a `#` column, assign the next row number to new rows that don't provide one
+      if (headerKeys.includes('') && (next[''] === undefined || next[''] === '')) {
+        const maxNum = this.table.rows.reduce((m, r) => Math.max(m, parseInt(r[''] || '0', 10) || 0), 0);
+        next[''] = String(maxNum + 1);
+      }
     }
 
     // Build raw cells in header order.

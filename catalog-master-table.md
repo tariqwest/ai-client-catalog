@@ -154,6 +154,7 @@
 | 118 | `freebuff-desktop` | 8LQAUEOE | Freebuff Desktop | freebuff-desktop, freebuff desktop | `Freebuff` (Desktop) | Codebuff AI | host | desktop_workspace | false | false | `https://freebuff.com/desktop` (macOS/Win/Linux) | — | Apache-2.0 | active | ~9.8k★ | https://freebuff.com/desktop | https://github.com/CodebuffAI/freebuff | 2026-08-18T00:34:40Z | 2026-08-18T00:35:03Z |
 | 119 | `freebuff-web` | 0WK1J4TX | Freebuff Web | freebuff-web, freebuff web | `https://freebuff.com/web` (SaaS) | Codebuff AI | host | desktop_workspace | false | false | `https://freebuff.com/web` (SaaS) | — | Apache-2.0 | active | ~9.8k★ | https://freebuff.com/web | https://github.com/CodebuffAI/freebuff | 2026-08-18T00:34:40Z | 2026-08-18T00:35:03Z |
 | 120 | `freebuff-cloud` | MN3EBZ88 | Freebuff Cloud | freebuff-cloud, freebuff cloud | `https://freebuff.com/cloud` (SaaS) | Codebuff AI | host | desktop_workspace | false | false | `https://freebuff.com/cloud` (SaaS) | — | Apache-2.0 | active | ~9.8k★ | https://freebuff.com/cloud | https://github.com/CodebuffAI/freebuff | 2026-08-18T00:34:40Z | 2026-08-18T00:35:03Z |
+| 121 | `deepseek-harness` | PAVYM44Y | DeepSeek Harness | deepseek-harness, dsh | `dsh` | DeepSeek | agent | terminal_cli | true | true | `npx @deepseek-ai/dsh web` · `npm install -g @deepseek-ai/dsh` · `pnpm dsh` from source | 0.1.0-rc.7 | MIT | active | 165k★ | https://deepseek.com/harness | https://github.com/deepseek-ai/deepseek-harness | 2026-08-19T13:00:41Z | 2026-08-19T13:00:41Z |
 
 ---
 

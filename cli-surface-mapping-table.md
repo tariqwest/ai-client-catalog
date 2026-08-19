@@ -113,6 +113,7 @@
 | 80 | `llm` | q7m2k4za | `llm` | — | positional | — | ✓ (default) | — | — | — | — | — | — | 2026-08-14T00:00:00Z | 2026-08-14T00:00:00Z | active |
 | 81 | `gptme` | r8n3p5vb | `gptme` | gptme "prompt" | positional | — | ✓ (default) | — | — | — | — | log, eval | Erik Bjäreholt agent | 2026-08-14T00:00:00Z | 2026-08-14T00:00:00Z | active |
 | 82 | `blackbox-cli` | v6c1x9qd | `blackbox` | blackbox "prompt" | positional | — | ✓ (default) | — | — | — | — | — | — | 2026-08-14T00:00:00Z | 2026-08-14T00:00:00Z | active |
+| 83 | `deepseek-harness` | PAVYM44Y | `dsh` | — | positional | acp | ✓ (default) | — | — | — | — | — | — | 2026-08-19T13:00:41Z | 2026-08-19T13:00:41Z | active |
 
 
 
